@@ -1,11 +1,21 @@
-import { useState } from 'react';
-import type { ProcessContextState } from 'types/contexts/process';
-import { Taskbar } from 'utils/processDirectory';
+import { useCallback, useState } from 'react';
+import type {
+  ProcessContextState,
+  Processes,
+  ProcessesMap
+} from 'types/contexts/process';
+import { closeProcess, openProcess } from 'utils/processFunctions';
 
 const useProcessContextState = (): ProcessContextState => {
-  const [processes] = useState({ Taskbar });
+  const [processes, setProcesses] = useState<Processes>({});
+  const mapProcesses = useCallback<ProcessesMap>(
+    (callback) => Object.entries(processes).map(callback),
+    [processes]
+  );
+  const close = useCallback((id: string) => setProcesses(closeProcess(id)), []);
+  const open = useCallback((id: string) => setProcesses(openProcess(id)), []);
 
-  return { processes };
+  return { close, open, mapProcesses };
 };
 
 export default useProcessContextState;

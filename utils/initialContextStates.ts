@@ -7,7 +7,9 @@ export const initialFileSystemContextState: FileSystemContextState = {
 };
 
 export const initialProcessContextState: ProcessContextState = {
-  processes: {}
+  close: () => undefined,
+  open: () => undefined,
+  mapProcesses: () => []
 };
 
 export const initialSessionContextState: SessionContextState = {
