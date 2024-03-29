@@ -1,17 +1,16 @@
 import 'styled-components';
 
-import type { WallpaperEffect } from 'types/styles/wallpaper';
+export type WallpaperEffect = (element: HTMLElement | null) => () => void;
 
 declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
       background: string;
       highlight: string;
-      opaqueWhite: string;
-      primary: string;
       startButton: string;
       taskbar: string;
       taskbarHover: string;
+      text: string;
       window: string;
     };
     formats: {

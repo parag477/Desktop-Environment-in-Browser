@@ -8,7 +8,8 @@ const ProcessLoader = (): JSX.Element => (
         <RenderProcess
           key={id}
           Component={Component}
-          hasWindow={Boolean(hasWindow)}
+          hasWindow={hasWindow}
+          id={id}
         />
       ))
     }

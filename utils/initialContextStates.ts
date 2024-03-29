@@ -1,6 +1,6 @@
-import type { FileSystemContextState } from 'types/contexts/fileSystem';
-import type { ProcessContextState } from 'types/contexts/process';
-import type { SessionContextState } from 'types/contexts/session';
+import type { FileSystemContextState } from 'hooks/useFileSystemContextState';
+import type { ProcessContextState } from 'hooks/useProcessContextState';
+import type { SessionContextState } from 'hooks/useSessionContextState';
 
 export const initialFileSystemContextState: FileSystemContextState = {
   fs: null
@@ -9,7 +9,10 @@ export const initialFileSystemContextState: FileSystemContextState = {
 export const initialProcessContextState: ProcessContextState = {
   close: () => undefined,
   open: () => undefined,
-  mapProcesses: () => []
+  mapProcesses: () => [],
+  maximize: () => undefined,
+  minimize: () => undefined,
+  processes: {}
 };
 
 export const initialSessionContextState: SessionContextState = {
