@@ -1,12 +1,13 @@
-import type { ReactElement } from 'react';
-import styled from 'styled-components';
+import Desktop from 'components/system/Desktop';
+import ProcessLoader from 'components/system/ProcessLoader';
+import { ProcessProvider } from 'contexts/process';
 
-const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.primary};
-  font-size: 50px;
-  text-align: center;
-`;
-
-export default function Home(): ReactElement {
-  return <Title>Hello, world!</Title>;
+export default function Home(): React.ReactElement {
+  return (
+    <Desktop>
+      <ProcessProvider>
+        <ProcessLoader />
+      </ProcessProvider>
+    </Desktop>
+  );
 }
