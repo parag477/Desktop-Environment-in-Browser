@@ -6,12 +6,30 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
       background: string;
+      fileEntry: {
+        background: string;
+        border: string;
+        text: string;
+        textShadow: string;
+      };
       highlight: string;
       startButton: string;
-      taskbar: string;
-      taskbarHover: string;
+      taskbar: {
+        background: string;
+        hover: string;
+      };
       text: string;
-      window: string;
+      titleBar: {
+        background: string;
+        backgroundHover: string;
+        closeHover: string;
+        text: string;
+      };
+      window: {
+        background: string;
+        outline: string;
+        shadow: string;
+      };
     };
     formats: {
       date: Intl.DateTimeFormatOptions;
@@ -21,6 +39,18 @@ declare module 'styled-components' {
       clock: {
         fontSize: string;
         width: string;
+      };
+      fileEntry: {
+        fontSize: string;
+        iconSize: string;
+        letterSpacing: string;
+      };
+      fileManager: {
+        columnGap: string;
+        gridEntryHeight: string;
+        gridEntryWidth: string;
+        padding: string;
+        rowGap: string;
       };
       startButton: {
         iconSize: string;
@@ -38,6 +68,18 @@ declare module 'styled-components' {
           maxWidth: string;
         };
         height: string;
+      };
+      titleBar: {
+        buttonIconWidth: string;
+        buttonWidth: string;
+        fontSize: string;
+        height: string;
+        iconMargin: string;
+        iconSize: string;
+      };
+      window: {
+        lineHeight: string;
+        outline: string;
       };
     };
     wallpaper?: WallpaperEffect;
