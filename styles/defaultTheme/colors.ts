@@ -20,20 +20,27 @@ const colors = {
   highlight: '#76B9ED',
   startButton: '#FFF',
   taskbar: {
-    background: 'rgba(0, 0, 0, 60%)',
+    active: 'hsla(0, 0%, 40%, 70%)',
+    activeHover: 'hsla(0, 0%, 50%, 70%)',
+    background: 'hsla(0, 0%, 10%, 70%)',
     hover: 'hsla(0, 0%, 25%, 70%)'
   },
-  text: 'rgba(255, 255, 255, 80%)',
+  text: 'rgba(255, 255, 255, 90%)',
   titleBar: {
-    background: '#000',
+    background: 'rgb(0, 0, 0)',
     backgroundHover: 'rgb(26, 26, 26)',
+    backgroundInactive: 'rgb(43, 43, 43)',
+    buttonInactive: 'rgb(128, 128, 128)',
     closeHover: 'rgb(232, 17, 35)',
-    text: '#fff'
+    text: 'rgb(255, 255, 255)',
+    textInactive: 'rgb(170, 170, 170)'
   },
   window: {
     background: '#808080',
-    outline: 'hsl(0deg 0% 20% / 80%)',
-    shadow: '0 0 12px 0 rgba(0, 0, 0, 50%)'
+    outline: 'hsl(0deg 0% 25% / 75%)',
+    outlineInactive: 'hsl(0deg 0% 30% / 75%)',
+    shadow: '0 0 12px 0 rgba(0, 0, 0, 50%)',
+    shadowInactive: '0 0 8px 0 rgba(0, 0, 0, 50%)'
   }
 };
 

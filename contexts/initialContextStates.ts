@@ -8,16 +8,22 @@ export const initialFileSystemContextState: FileSystemContextState = {
 
 export const initialProcessContextState: ProcessContextState = {
   close: () => undefined,
-  open: () => undefined,
+  linkElement: () => undefined,
   mapProcesses: () => [],
   maximize: () => undefined,
   minimize: () => undefined,
-  processes: {}
+  open: () => undefined,
+  processes: {},
+  title: () => undefined
 };
 
 export const initialSessionContextState: SessionContextState = {
+  foregroundId: '',
+  setForegroundId: () => undefined,
+  setStackOrder: () => undefined,
   setThemeName: () => undefined,
   setWindowStates: () => undefined,
+  stackOrder: [],
   themeName: '',
   windowStates: {}
 };

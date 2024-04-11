@@ -15,6 +15,8 @@ declare module 'styled-components' {
       highlight: string;
       startButton: string;
       taskbar: {
+        active: string;
+        activeHover: string;
         background: string;
         hover: string;
       };
@@ -22,13 +24,18 @@ declare module 'styled-components' {
       titleBar: {
         background: string;
         backgroundHover: string;
+        backgroundInactive: string;
+        buttonInactive: string;
         closeHover: string;
         text: string;
+        textInactive: string;
       };
       window: {
         background: string;
         outline: string;
+        outlineInactive: string;
         shadow: string;
+        shadowInactive: string;
       };
     };
     formats: {
@@ -62,7 +69,6 @@ declare module 'styled-components' {
           borderSize: string;
           fontSize: string;
           icon: {
-            margin: string;
             size: string;
           };
           maxWidth: string;
