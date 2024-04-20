@@ -20,16 +20,28 @@ type TitlebarProps = {
 const Titlebar = ({ id }: TitlebarProps): JSX.Element => {
   const {
     processes: {
-      [id]: { autoSizing, icon, title, maximized }
+      [id]: {
+        autoSizing = false,
+        icon = '',
+        lockAspectRatio = false,
+        title = '',
+        maximized = false
+      } = {}
     }
   } = useProcesses();
   const { foregroundId } = useSession();
   const isForeground = useMemo(() => id === foregroundId, [foregroundId, id]);
   const { onClose, onMaximize, onMinimize } = useWindowActions(id);
+  const isMaximizable = useMemo(() => autoSizing && !lockAspectRatio, [
+    autoSizing,
+    lockAspectRatio
+  ]);
 
   return (
     <StyledTitlebar className="handle" foreground={isForeground}>
-      <h1 onClick={useDoubleClick(autoSizing ? () => undefined : onMaximize)}>
+      <h1
+        onClick={useDoubleClick(isMaximizable ? () => undefined : onMaximize)}
+      >
         <figure>
           <Icon
             src={icon}
@@ -41,13 +53,18 @@ const Titlebar = ({ id }: TitlebarProps): JSX.Element => {
         </figure>
       </h1>
       <nav className="cancel">
-        <Button className="minimize" onClick={onMinimize}>
+        <Button className="minimize" onClick={onMinimize} title="Minimize">
           <MinimizeIcon />
         </Button>
-        <Button className="maximize" onClick={onMaximize} disabled={autoSizing}>
+        <Button
+          className="maximize"
+          disabled={isMaximizable}
+          onClick={onMaximize}
+          title="Maximize"
+        >
           {maximized ? <MaximizedIcon /> : <MaximizeIcon />}
         </Button>
-        <Button className="close" onClick={onClose}>
+        <Button className="close" onClick={onClose} title="Close">
           <CloseIcon />
         </Button>
       </nav>

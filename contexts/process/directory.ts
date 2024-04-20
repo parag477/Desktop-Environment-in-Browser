@@ -5,21 +5,19 @@ export type ProcessElements = {
   taskbarEntry?: HTMLElement;
 };
 
-export type ProcessToggles = {
+export type Process = ProcessElements & {
+  autoSizing?: boolean;
+  backgroundColor?: string;
+  closing?: boolean;
+  Component: React.ComponentType<ProcessComponentProps>;
+  hasWindow?: boolean;
+  icon: string;
+  lockAspectRatio?: boolean;
   maximized?: boolean;
   minimized?: boolean;
+  title: string;
+  url?: string;
 };
-
-export type Process = ProcessElements &
-  ProcessToggles & {
-    autoSizing?: boolean;
-    backgroundColor?: string;
-    Component: React.ComponentType<ProcessComponentProps>;
-    hasWindow?: boolean;
-    icon: string;
-    title: string;
-    url?: string;
-  };
 
 export type Processes = {
   [id: string]: Process;
@@ -29,7 +27,6 @@ const processDirectory: Processes = {
   FileExplorer: {
     backgroundColor: '#202020',
     Component: dynamic(() => import('components/apps/FileExplorer')),
-    hasWindow: true,
     icon: '/icons/explorer.png',
     title: 'File Explorer'
   },
@@ -37,17 +34,22 @@ const processDirectory: Processes = {
     autoSizing: true,
     backgroundColor: '#000',
     Component: dynamic(() => import('components/apps/JSDOS')),
-    hasWindow: true,
     icon: '/icons/jsdos.png',
+    lockAspectRatio: true,
     title: 'js-dos v7'
   },
   V86: {
     autoSizing: true,
     backgroundColor: '#000',
     Component: dynamic(() => import('components/apps/V86')),
-    hasWindow: true,
     icon: '/icons/v86.png',
     title: 'Virtual x86'
+  },
+  Webamp: {
+    Component: dynamic(() => import('components/apps/Webamp')),
+    hasWindow: false,
+    icon: '/icons/webamp.png',
+    title: 'Webamp'
   }
 };
 

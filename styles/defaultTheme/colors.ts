@@ -1,8 +1,12 @@
 const colors = {
   background: '#000',
   fileEntry: {
-    background: `hsl(206deg 77% 70% / 25%)`,
-    border: 'hsl(206deg 77% 100% / 30%)',
+    background: `hsl(207deg 30% 72% / 25%)`,
+    backgroundFocused: `hsl(207deg 60% 72% / 30%)`,
+    backgroundFocusedHover: `hsl(207deg 90% 72% / 35%)`,
+    border: 'hsl(207deg 30% 72% / 30%)',
+    borderFocused: 'hsl(207deg 60% 72% / 35%)',
+    borderFocusedHover: 'hsl(207deg 90% 72% / 40%)',
     text: '#FFF',
     textShadow: `
       0 0 1px rgba(0, 0, 0, 75%),
@@ -17,11 +21,11 @@ const colors = {
       0 2px 2px rgba(0, 0, 0, 50%),
       0 2px 3px rgba(0, 0, 0, 25%)`
   },
-  highlight: '#76B9ED',
+  highlight: 'hsl(207deg 100% 72% / 90%)',
   startButton: '#FFF',
   taskbar: {
-    active: 'hsla(0, 0%, 40%, 70%)',
-    activeHover: 'hsla(0, 0%, 50%, 70%)',
+    active: 'hsla(0, 0%, 35%, 70%)',
+    activeHover: 'hsla(0, 0%, 45%, 70%)',
     background: 'hsla(0, 0%, 10%, 70%)',
     hover: 'hsla(0, 0%, 25%, 70%)'
   },

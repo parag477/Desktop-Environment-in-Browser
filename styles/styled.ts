@@ -1,6 +1,6 @@
 import 'styled-components';
 
-export type WallpaperEffect = (element: HTMLElement | null) => () => void;
+export type WallpaperEffect = (el: HTMLElement | null) => void;
 
 declare module 'styled-components' {
   export interface DefaultTheme {
@@ -8,7 +8,11 @@ declare module 'styled-components' {
       background: string;
       fileEntry: {
         background: string;
+        backgroundFocused: string;
+        backgroundFocusedHover: string;
         border: string;
+        borderFocused: string;
+        borderFocusedHover: string;
         text: string;
         textShadow: string;
       };
@@ -50,7 +54,6 @@ declare module 'styled-components' {
       fileEntry: {
         fontSize: string;
         iconSize: string;
-        letterSpacing: string;
       };
       fileManager: {
         columnGap: string;

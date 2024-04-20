@@ -2,12 +2,14 @@ import styled from 'styled-components';
 
 const StyledJSDOS = styled.div`
   background-color: #000;
-  height: 100%;
+  height: ${({ theme }) =>
+    `calc(100% - ${theme.sizes.titleBar.height}) !important`};
   width: 100%;
 
   canvas {
-    height: 100%;
+    height: 100% !important;
     image-rendering: pixelated;
+    image-rendering: crisp-edges;
     top: 0 !important;
     width: 100%;
   }

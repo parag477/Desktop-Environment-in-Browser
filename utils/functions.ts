@@ -1,4 +1,5 @@
 import { extname } from 'path';
+import { stripUnit } from 'polished';
 
 export const bufferToUrl = (buffer: Buffer): string =>
   URL.createObjectURL(new Blob([new Uint8Array(buffer)]));
@@ -16,8 +17,8 @@ export const loadScript = (src: string): Promise<Event> =>
 
       script.async = false;
       script.src = src;
-      script.onerror = (event) => reject(event);
-      script.onload = (event) => resolve(event);
+      script.onerror = reject;
+      script.onload = resolve;
 
       document.head.appendChild(script);
     }
@@ -34,8 +35,8 @@ export const loadStyle = (href: string): Promise<Event> =>
 
       link.rel = 'stylesheet';
       link.href = href;
-      link.onerror = (event) => reject(event);
-      link.onload = (event) => resolve(event);
+      link.onerror = reject;
+      link.onload = resolve;
 
       document.head.appendChild(link);
     }
@@ -52,3 +53,6 @@ export const loadFiles = async (files: string[]): Promise<Event[]> =>
       return filesToLoad;
     }, [])
   );
+
+export const pxToNum = (value: string | number = 0): number =>
+  Number(stripUnit(value));

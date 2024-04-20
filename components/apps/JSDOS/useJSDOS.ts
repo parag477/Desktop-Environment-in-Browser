@@ -1,6 +1,7 @@
 import type { FSModule } from 'browserfs/dist/node/core/FS';
 import {
   defaultConfig,
+  globals,
   libs,
   pathPrefix,
   zipConfigPath
@@ -10,6 +11,7 @@ import { addFileToZip, isFileInZip } from 'components/apps/JSDOS/zipFunctions';
 import useTitle from 'components/system/Window/useTitle';
 import useWindowSize from 'components/system/Window/useWindowSize';
 import { useFileSystem } from 'contexts/fileSystem';
+import { useProcesses } from 'contexts/process';
 import { extname } from 'path';
 import { useEffect, useState } from 'react';
 import { bufferToUrl, cleanUpBufferUrl, loadFiles } from 'utils/functions';
@@ -18,6 +20,9 @@ const addJsDosConfig = async (buffer: Buffer, fs: FSModule): Promise<Buffer> =>
   (await isFileInZip(buffer, zipConfigPath))
     ? buffer
     : addFileToZip(buffer, defaultConfig, zipConfigPath, fs);
+
+const cleanUpLoader = () =>
+  globals.forEach((global) => delete (window as never)[global]);
 
 const useJSDOS = (
   id: string,
@@ -28,6 +33,7 @@ const useJSDOS = (
   const { updateWindowSize } = useWindowSize(id);
   const [dos, setDos] = useState<DosCI | null>(null);
   const { fs } = useFileSystem();
+  const { close } = useProcesses();
 
   useEffect(() => {
     if (!dos && fs && url && screenRef?.current) {
@@ -43,20 +49,36 @@ const useJSDOS = (
             .Dos(screenRef.current as HTMLDivElement)
             .run(objectURL)
             .then((ci) => {
+              setDos(ci);
               appendFileToTitle(url);
               cleanUpBufferUrl(objectURL);
-              setDos(ci);
+              cleanUpLoader();
             });
         })
       );
     }
 
-    return () => dos?.exit();
+    return () => {
+      if (dos) {
+        dos.exit?.();
+        window.SimpleKeyboardInstances?.emulatorKeyboard?.destroy?.();
+      }
+    };
   }, [appendFileToTitle, dos, fs, screenRef, url]);
 
   useEffect(() => {
     if (dos) {
       updateWindowSize(dos.frameHeight, dos.frameWidth);
+
+      dos.events().onMessage((_msgType, _eventType, command, message) => {
+        if (command === 'LOG_EXEC') {
+          const [dosCommand] = message
+            .replace('Parsing command line: ', '')
+            .split(' ');
+
+          if (dosCommand.toUpperCase() === 'EXIT') close(id);
+        }
+      });
 
       dos
         .events()
@@ -64,7 +86,7 @@ const useJSDOS = (
           updateWindowSize(height * 2, width * 2)
         );
     }
-  }, [dos, updateWindowSize]);
+  }, [close, dos, id, updateWindowSize]);
 };
 
 export default useJSDOS;

@@ -36,7 +36,6 @@ const StyledTitlebar = styled.header<StyledTitlebarProps>`
 
       img {
         height: ${({ theme }) => theme.sizes.titleBar.iconSize};
-        image-rendering: pixelated;
         margin: ${({ theme }) => theme.sizes.titleBar.iconMargin};
         width: ${({ theme }) => theme.sizes.titleBar.iconSize};
       }
@@ -53,7 +52,10 @@ const StyledTitlebar = styled.header<StyledTitlebarProps>`
     display: flex;
 
     button {
-      border-left: 1px solid transparent;
+      border-left: ${({ foreground, theme }) =>
+        foreground
+          ? `1px solid ${theme.colors.titleBar.background}`
+          : `1px solid ${theme.colors.titleBar.backgroundInactive}`};
       box-sizing: content-box;
       display: flex;
       place-content: center;
