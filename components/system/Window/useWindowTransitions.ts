@@ -10,8 +10,10 @@ import { pxToNum } from 'utils/functions';
 
 const staticBaseVariants = {
   active: {
+    height: 'inherit',
     opacity: 1,
-    scale: 1
+    scale: 1,
+    width: 'inherit'
   },
   initial: {
     opacity: 0,
@@ -66,8 +68,11 @@ const useWindowTransitions = (
       x: taskbarX = 0,
       y: taskbarY = 0
     } = taskbarEntry?.getBoundingClientRect() || {};
-    const { height: windowHeight = 0, x: windowX = 0, y: windowY = 0 } =
-      windowRef?.current?.getBoundingClientRect() || {};
+    const {
+      height: windowHeight = 0,
+      x: windowX = 0,
+      y: windowY = 0
+    } = windowRef?.current?.getBoundingClientRect() || {};
 
     setMinimize({
       ...staticMinimizeVariant,
