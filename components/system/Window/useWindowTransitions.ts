@@ -8,28 +8,27 @@ import {
 } from 'utils/constants';
 import { pxToNum } from 'utils/functions';
 
-const staticBaseVariants = {
-  active: {
-    height: 'inherit',
-    opacity: 1,
-    scale: 1,
-    width: 'inherit'
-  },
-  initial: {
-    opacity: 0,
-    scale: 0.95
-  }
+const active = {
+  height: 'inherit',
+  opacity: 1,
+  scale: 1,
+  width: 'inherit'
 };
 
-const staticMaximizeVariant = {
+const initial = {
+  opacity: 0,
+  scale: 0.95
+};
+
+const baseMaximize = {
   opacity: 1,
   scale: 1,
   width: '100vw'
 };
 
-const staticMinimizeVariant = {
+const baseMinimize = {
   opacity: 0,
-  scale: 0.75
+  scale: 0.7
 };
 
 const useWindowTransitions = (
@@ -54,7 +53,7 @@ const useWindowTransitions = (
       windowRef?.current?.getBoundingClientRect() || {};
 
     setMaximize({
-      ...staticMaximizeVariant,
+      ...baseMaximize,
       height: `${window.innerHeight - pxToNum(taskbar?.height)}px`,
       x: -windowX,
       y: -windowY
@@ -70,30 +69,27 @@ const useWindowTransitions = (
     } = taskbarEntry?.getBoundingClientRect() || {};
     const {
       height: windowHeight = 0,
+      width: windowWidth = 0,
       x: windowX = 0,
       y: windowY = 0
     } = windowRef?.current?.getBoundingClientRect() || {};
 
     setMinimize({
-      ...staticMinimizeVariant,
-      x: taskbarX - windowX - taskbarWidth / 2,
-      y: taskbarY - windowY - windowHeight / 2 - taskbarHeight / 2
+      ...baseMinimize,
+      x: taskbarX - windowX - windowWidth / 2 + taskbarWidth / 2,
+      y: taskbarY - windowY - windowHeight / 2 + taskbarHeight / 2
     });
   }, [minimized, taskbarEntry, windowRef]);
 
   return {
-    animate: (maximized && 'maximize') || (minimized && 'minimize') || 'active',
+    animate: (minimized && 'minimize') || (maximized && 'maximize') || 'active',
     exit: 'initial',
     initial: 'initial',
     transition: {
       duration:
         WINDOW_TRANSITION_DURATION_IN_MILLISECONDS / MILLISECONDS_IN_SECOND
     },
-    variants: {
-      ...staticBaseVariants,
-      maximize,
-      minimize
-    }
+    variants: { active, initial, maximize, minimize }
   };
 };
 

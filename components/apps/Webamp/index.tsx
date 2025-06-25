@@ -1,17 +1,34 @@
-import { getWebampElement } from 'components/apps/Webamp/functions';
+import {
+  focusWindow,
+  setZIndex,
+  unFocus
+} from 'components/apps/Webamp/functions';
+import StyledWebamp from 'components/apps/Webamp/StyledWebamp';
 import useWebamp from 'components/apps/Webamp/useWebamp';
 import type { ComponentProcessProps } from 'components/system/Apps/RenderComponent';
+import useWindowTransitions from 'components/system/Window/useWindowTransitions';
 import { useFileSystem } from 'contexts/fileSystem';
 import { useProcesses } from 'contexts/process';
-import { useEffect, useRef } from 'react';
+import { useSession } from 'contexts/session';
+import { useEffect, useMemo, useRef } from 'react';
 import { loadFiles } from 'utils/functions';
 
 const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { fs } = useFileSystem();
-  const { processes: { [id]: { minimized = false, url = '' } = {} } = {} } =
-    useProcesses();
-  const { loadWebamp } = useWebamp(id);
+  const {
+    processes: {
+      [id]: { minimized = false, taskbarEntry = undefined, url = '' } = {}
+    } = {}
+  } = useProcesses();
+  const { loadWebamp, webampCI } = useWebamp(id);
+  const { foregroundId, setForegroundId, setStackOrder, stackOrder } =
+    useSession();
+  const windowTransitions = useWindowTransitions(id, containerRef);
+  const zIndex = useMemo(
+    () => stackOrder.length + (minimized ? 1 : -stackOrder.indexOf(id)) + 1,
+    [id, minimized, stackOrder]
+  );
 
   useEffect(() => {
     if (fs) {
@@ -25,16 +42,43 @@ const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
     }
   }, [containerRef, fs, loadWebamp, url]);
 
-  // TODO: Replace with Framer animation
+  useEffect(() => containerRef?.current?.focus(), []);
+
   useEffect(() => {
-    const webamp = getWebampElement();
+    if (webampCI) {
+      if (
+        foregroundId === id &&
+        !containerRef?.current?.contains(document.activeElement)
+      ) {
+        focusWindow(webampCI, 'main');
+        containerRef?.current?.focus();
+      }
 
-    if (webamp) {
-      webamp.style.display = minimized ? 'none' : 'block';
+      setZIndex(webampCI, zIndex);
     }
-  }, [minimized]);
+  }, [foregroundId, id, stackOrder, webampCI, zIndex]);
 
-  return <div ref={containerRef} />;
+  return (
+    <StyledWebamp
+      ref={containerRef}
+      tabIndex={-1}
+      onFocus={() => {
+        setStackOrder((currentStackOrder) => [
+          id,
+          ...currentStackOrder.filter((stackId) => stackId !== id)
+        ]);
+        setForegroundId(id);
+      }}
+      onBlur={({ relatedTarget }) => {
+        if (foregroundId === id && relatedTarget !== taskbarEntry) {
+          setForegroundId('');
+        }
+
+        if (webampCI) unFocus(webampCI);
+      }}
+      {...windowTransitions}
+    />
+  );
 };
 
 export default Webamp;

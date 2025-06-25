@@ -27,6 +27,7 @@ const StyledFileEntry = styled.li`
     figure {
       display: flex;
       flex-direction: column;
+      margin-bottom: -3px;
       place-items: center;
 
       figcaption {
@@ -36,8 +37,10 @@ const StyledFileEntry = styled.li`
         font-size: ${({ theme }) => theme.sizes.fileEntry.fontSize};
         letter-spacing: -0.1px;
         -webkit-line-clamp: 2;
+        line-height: 15px;
+        margin: 1px 0;
         overflow: hidden;
-        padding: 2px 0;
+        padding: 2px;
         text-shadow: ${({ theme }) => theme.colors.fileEntry.textShadow};
         word-break: break-word;
       }
@@ -59,6 +62,7 @@ const StyledFileEntry = styled.li`
   &:focus-within {
     background-color: ${({ theme }) =>
       theme.colors.fileEntry.backgroundFocused};
+    z-index: 1;
 
     &::before {
       border: ${({ theme }) =>
@@ -67,7 +71,6 @@ const StyledFileEntry = styled.li`
 
     figcaption {
       -webkit-line-clamp: initial;
-      z-index: 1;
     }
 
     &:hover {

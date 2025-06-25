@@ -2,7 +2,6 @@ import StyledWindow from 'components/system/Window/StyledWindow';
 import styled from 'styled-components';
 
 const StyledFileManager = styled.ol`
-  column-gap: ${({ theme }) => theme.sizes.fileManager.columnGap};
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: ${({ theme }) =>
@@ -14,7 +13,7 @@ const StyledFileManager = styled.ol`
   row-gap: ${({ theme }) => theme.sizes.fileManager.rowGap};
 
   main > & {
-    padding-bottom: 23px;
+    padding-bottom: 20px;
   }
 
   ${StyledWindow} & {
